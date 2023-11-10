@@ -5,14 +5,6 @@ from django.contrib.auth.models import User
 
 
 class SignupForm(UserCreationForm):
-    username = forms.CharField(
-        max_length=35,
-        help_text="Required. 35 characters or fewer. <br>Letters, digits and @/./+/-/_ only.",
-    )
-
-    email = models.EmailField(
-        help_text="Required. Enter a valid email address.", unique=True
-    )
 
     class Meta:
         model = User
@@ -28,19 +20,7 @@ class SignupForm(UserCreationForm):
 
 
 class LoginForm(AuthenticationForm):
-    username = forms.CharField(
-        label="Username",
-        widget=forms.TextInput(attrs={'autofocus': True}))
-    password = forms.CharField(
-        label="Password",
-        strip=False,
-        widget=forms.PasswordInput,
-    )
 
-    error_messages = {
-        'invalid_login': (
-            "Please enter a correct username and password. Note that both "
-            "fields may be case-sensitive."
-        ),
-        'inactive': "This account is inactive."
-    }
+    class Meta:
+        model = User
+        fields = ['username', 'password']
