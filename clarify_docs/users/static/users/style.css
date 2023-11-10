@@ -1,4 +1,4 @@
-/* Стили для формы */
+/* Form styles */
 form {
     max-width: 400px;
     margin: 0 auto;
@@ -9,13 +9,13 @@ form {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Стили для заголовка формы */
+/* Form heading styles */
 form h2 {
     text-align: center;
     color: #333;
 }
 
-/* Стили для полей ввода */
+/* Input styles */
 form input {
     width: 100%;
     padding: 10px;
@@ -23,7 +23,7 @@ form input {
     box-sizing: border-box;
 }
 
-/* Стили для кнопки отправки формы */
+/* Submit button styles */
 form button {
     width: 100%;
     padding: 10px;
@@ -31,11 +31,60 @@ form button {
     color: #fff;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
+    cursor: default;
 }
 
-/* Стили для сообщений об ошибках */
+/* back_to_login style button */
+.back-to-login {
+    margin-bottom: 10px;
+}
+
+.back-to-login a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.back-to-login a:hover {
+    text-decoration: underline;
+}
+
+/* Error message styles */
 form .error-message {
     color: #ff0000;
     margin-bottom: 10px;
+}
+
+/* Global styles */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Header styles */
+header {
+    background-color: #fff;
+    padding: 20px;
+    text-align: left;
+}
+
+/* h1 style  */
+header h1 {
+    margin: 0;
+    font-size: 22;
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Main content styles */
+main {
+    padding: 20px;
+}
+
+/* Footer styles */
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
 }
