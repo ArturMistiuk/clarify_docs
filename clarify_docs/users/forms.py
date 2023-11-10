@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 
 class SignupForm(UserCreationForm):
-    username = models.CharField(
+    username = forms.CharField(
         max_length=35,
         help_text="Required. 35 characters or fewer. <br>Letters, digits and @/./+/-/_ only."
     )
