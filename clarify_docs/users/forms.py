@@ -1,6 +1,6 @@
 from django import forms
 from django.db import models
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
 
@@ -25,3 +25,22 @@ class SignupForm(UserCreationForm):
                 "This email address is already in use. Please provide a different email address."
             )
         return email
+
+
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(
+        label="Username",
+        widget=forms.TextInput(attrs={'autofocus': True}))
+    password = forms.CharField(
+        label="Password",
+        strip=False,
+        widget=forms.PasswordInput,
+    )
+
+    error_messages = {
+        'invalid_login': (
+            "Please enter a correct username and password. Note that both "
+            "fields may be case-sensitive."
+        ),
+        'inactive': "This account is inactive."
+    }
