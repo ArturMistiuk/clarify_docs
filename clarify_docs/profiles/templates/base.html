@@ -1,0 +1,17 @@
+<nav style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px">
+    {% if user.is_authenticated %}
+    <ul>
+        <li>Welcome <b>{{ user.username }}!</b></li>
+        <li><a href="{% url 'profiles:edit_profile' username=user.username %}">Edit Profile</a></li>
+        <li><a href="{% url 'profiles:delete_profile' username=user.username %}" role="button">Delete Profile</a></li>
+        <li><a href="{% url 'profiles:logout' %}" role="button">Logout</a></li>
+
+    </ul>
+    
+    {% else %}
+    <ul>
+        <li><a href="{% url 'profiles:create_profile' %}" role="button">Sign Up</a></li>
+        <li><a href="{% url 'profiles:login' %}" role="button">Login</a></li>
+    </ul>
+    {% endif %}
+</nav>
