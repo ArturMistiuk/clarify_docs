@@ -1,11 +1,28 @@
-{% block content %}
-<h2>Your Profile</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
 
-<p>Username: {{ user_profile.username }}</p>
-<p>Email: {{ user_profile.email }}</p>
-<p>Bio: {{ user_profile.bio }}</p>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'profile_list.css' %}">
+</head>
+<body>
+  {% block content %}
+  <div id="profile-container">
+    <h2>Your Profile</h2>
 
-<li><a href="{% url 'profiles:edit_profile' username=user_profile.username %}"role="button">Edit Profile</a></li>
-<li><a href="{% url 'profiles:delete_profile' username=user_profile.username %}"role="button">Delete Profile</a></li>
-<li><a href="{% url 'base' %}" role="button">Home</a></li>
-{% endblock %}
+    <p>Username: {{ user_profile.username }}</p>
+    <p>Email: {{ user_profile.email }}</p>
+    <p>Bio: {{ user_profile.bio }}</p>
+
+    <ul>
+      <li><a href="{% url 'profiles:edit_profile' username=user_profile.username %}" role="button">Edit Profile</a></li>
+      <li><a href="{% url 'profiles:delete_profile' username=user_profile.username %}" role="button">Delete Profile</a></li>
+      <li><a href="{% url 'base' %}" role="button">Home</a></li>
+    </ul>
+  </div>
+  {% endblock %}
+</body>
+</html>
