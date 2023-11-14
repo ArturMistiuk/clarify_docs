@@ -9,6 +9,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 django = "^4.2.7"
+langchain = "^0.0.334"
 
 
 [build-system]
