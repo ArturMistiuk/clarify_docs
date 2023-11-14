@@ -1,0 +1,52 @@
+/* Style for the form */
+form {
+    max-width: 400px; /* Maximum width of the form */
+    margin: 0 auto; /* Center the form horizontally */
+}
+
+/* Style for input fields and labels */
+form label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+form input {
+    width: calc(100% - 20px); /* Width of the input field, accounting for internal padding */
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+/* Style for the "Save Changes" button */
+button[type="submit"] {
+    display: inline-block;
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button[type="submit"]:hover {
+    background-color: #2980b9;
+}
+
+/* Style for the "Back to Profile List" link */
+a.back-link {
+    display: inline-block;
+    text-decoration: none;
+    color: #3498db;
+    padding: 10px 15px;
+    border: 1px solid #3498db;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 10px; /* Left margin from the "Save Changes" button */
+}
+
+a.back-link:hover {
+    background-color: #3498db;
+    color: #fff;
+}
