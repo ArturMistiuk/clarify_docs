@@ -9,17 +9,19 @@
     <link rel="stylesheet" type="text/css" href="{% static 'login.css' %}">
 </head>
 <body>
+<div class="messages-container">
+        {% if messages %}
+            <div>
+                {% for message in messages %}
+                    <div {% if message.tags %} class="alert-{{ message.tags }}" {% endif %}>{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+</div>
     <ul>
         <li><a href="{% url 'profiles:index' %}">Clarify Docs</a></li>
     </ul>
-{% if messages %}
-    <div>
-        {% for message in messages %}
-            <div {% if message.tags %} class="alert-{{ message.tags }}" {% endif %}>{{ message }}</div>
-        {% endfor %}
-    </div>
-{% endif %}
-<form action="{% url 'profiles:login' %}" method="post">
+    <form action="{% url 'profiles:login' %}" method="post">
     {% csrf_token %}
     <div>
         <label> Username:
