@@ -20,11 +20,11 @@
         <li><a href="{% url 'profiles:logout' %}" role="button">Logout</a></li>
 
     </ul>
-    
+
     {% else %}
-    <ul>
-        <li><a href="{% url 'profiles:create_profile' %}" role="button">Sign Up</a></li>
-        <li><a href="{% url 'profiles:login' %}" role="button">Login</a></li>
+    <ul class="button-list">
+        <li><a href="{% url 'profiles:create_profile' %}" class="signup-button" role="button">Sign Up</a></li>
+        <li><a href="{% url 'profiles:login' %}" class="login-button" role="button">Login</a></li>
     </ul>
     {% endif %}
 </nav>
