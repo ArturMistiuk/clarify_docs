@@ -10,7 +10,7 @@
 </head>
 
 <body>
-  {% block content %}
+
     <form method="post" action="{% url 'profiles:create_profile' %}">
         {% csrf_token %}
         <div>
@@ -45,6 +45,5 @@
             <a href="{% url 'profiles:login' %}"><button type="button">Back to login</button></a>
         </div>
     </form>
-  {% endblock %}
 </body>
 </html>
