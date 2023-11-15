@@ -10,7 +10,9 @@
 </head>
 
 <body>
-
+    <ul>
+        <li><a href="{% url 'profiles:index' %}">Clarify Docs</a></li>
+    </ul>
     <form method="post" action="{% url 'profiles:create_profile' %}">
         {% csrf_token %}
         <div>
