@@ -8,8 +8,7 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'login.css' %}">
 </head>
-{% block content %}
-
+<body>
 {% if messages %}
     <div>
         {% for message in messages %}
@@ -17,7 +16,6 @@
         {% endfor %}
     </div>
 {% endif %}
-
 <form action="{% url 'profiles:login' %}" method="post">
     {% csrf_token %}
     <div>
@@ -38,5 +36,5 @@
         <a href="{% url 'profiles:create_profile' %}"><button type="button">Back to sign up</button></a>
     </div>
 </form>
-
-{% endblock %}
+</body>
+</html>
