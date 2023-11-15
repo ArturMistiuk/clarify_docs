@@ -27,8 +27,8 @@ nav ul li.logo {
 }
 
 nav ul li.logo a:hover {
-    text-decoration: none; /* убираем эффект наведения */
-    background-color: transparent; /* или любой другой фон, который у вас используется по умолчанию */
+    text-decoration: none;
+    background-color: transparent;
 }
 
 nav ul li.welcome {
