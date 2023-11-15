@@ -16,6 +16,6 @@
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Save Changes</button>
-    <a class="back-link" href="{% url 'profiles:profile_list' %}">Go to Profile List</a>
+    <a class="back-link" href="{% url 'base' %}">Back</a>
 </form>
 {% endblock %}
