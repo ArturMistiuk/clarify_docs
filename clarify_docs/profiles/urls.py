@@ -1,9 +1,10 @@
 from django.urls import path
-from .views import user_logout, create_profile, edit_profile, delete_profile, profile_list, user_login
+from .views import user_logout, create_profile, edit_profile, delete_profile, profile_list, user_login, index
 
 app_name = 'profiles'
 
 urlpatterns = [
+    path('', index, name='index'),
     path('login/', user_login, name='login'),
     path('create/', create_profile, name='create_profile'),
     path('<str:username>/edit/', edit_profile, name='edit_profile'),
