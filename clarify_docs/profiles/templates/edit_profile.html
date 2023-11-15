@@ -9,11 +9,13 @@
     <link rel="stylesheet" type="text/css" href="{% static 'edit_profile.css' %}">
 </head>
 {% block content %}
-<h2>Edit Profile</h2>
+    <ul>
+        <li><a href="{% url 'base' %}">Clarify Docs</a></li>
+    </ul>
 <form method="post" action="{% url 'profiles:edit_profile' username=user_profile.username %}">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Save Changes</button>
-    <a class="back-link" href="{% url 'profiles:profile_list' %}">Back to Profile List</a>
+    <a class="back-link" href="{% url 'profiles:profile_list' %}">Go to Profile List</a>
 </form>
 {% endblock %}
