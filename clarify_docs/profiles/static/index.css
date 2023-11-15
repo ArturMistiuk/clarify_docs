@@ -30,7 +30,7 @@ body {
 }
 
 .signup-button:hover, .login-button:hover {
-    background-color: #7f8c8d;
+    background-color: #2c3e50;
     color: #fff;
     border-color: #7f8c8d;
 }
@@ -38,7 +38,7 @@ body {
 h1 {
     font-size: xx-large;
     font-weight: bold;
-    color: #7f8c8d;
+    color:  #2c3e50;
     margin-left: 30px;
 }
 
