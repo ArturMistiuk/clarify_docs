@@ -1,0 +1,89 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+}
+
+nav {
+    font-size: large;
+    background-color: #f8f9fa;
+    padding: 15px;
+    text-align: center;
+    overflow: hidden;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline-block;
+    margin-right: 20px;
+    color: #ffff00;
+}
+
+nav ul li.logo {
+    font-size: xx-large;
+    font-weight: bold;
+    color: #ffff00;
+    float: left;
+    margin-right: 20px;
+}
+
+nav ul li.logo a:hover {
+    text-decoration: none;
+    background-color: transparent;
+}
+
+nav ul li.welcome {
+    clear: left;
+    font-size: large;
+    font-weight: bold;
+    color: #3B20E6;
+    float: left;
+    margin-top: 10px;
+    margin-right: 20px;
+    margin-left: 15px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #2c3e50;
+    font-weight: bold;
+    padding: 8px 15px;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+nav ul li a:hover {
+    background-color: #2c3e50;
+    color: #fff;
+}
+
+
+nav ul li b {
+    font-weight: bold;
+    color: #3B20E6;
+}
+
+nav ul li.logout a {
+    color: #2ecc71; /* Color of Logout link text */
+}
+
+nav ul li.logout a:hover {
+    color: #fff; /* Text color on hover for Logout link */
+}
+
+nav ul li.logo a.no-style {
+    text-decoration: none;
+    color:  #2c3e50;
+    background-color: transparent;
+    transition: none;
+}
+
+nav ul li.logo a.no-style:hover {
+    background-color: transparent;
+    color:  #2c3e50;
+}
