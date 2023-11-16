@@ -1,4 +1,3 @@
-
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import UserProfile
 from .forms import RegisterForm, LoginForm, EditProfileForm
@@ -6,9 +5,13 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.decorators import login_required
 
+
 def base(request):
     return render(request, 'base.html')
 
+
+def index(request):
+    return render(request, 'index.html')
 
 
 def create_profile(request):
@@ -19,7 +22,7 @@ def create_profile(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect(to='base')
+            return redirect(to='profiles:index')
         else:
             return render(request, 'create_profile.html', context={"form": form})
 
@@ -47,14 +50,11 @@ def user_login(request):
 def edit_profile(request, username):
     user_profile = get_object_or_404(UserProfile, username=username)
 
-    if request.user != user_profile:
-        return redirect('profiles:profile_list')
-
     if request.method == 'POST':
         form = EditProfileForm(request.POST, instance=user_profile)
         if form.is_valid():
             form.save()
-            return redirect('profiles:profile_list')
+            return redirect('base')
     else:
         form = EditProfileForm(instance=user_profile)
 
@@ -67,21 +67,11 @@ def delete_profile(request, username):
 
     if request.user == user_profile:
         user_profile.delete()
-        messages.success(
-            request, 'Your profile has been successfully deleted.')
-        return redirect('base')
+        return redirect('profiles:index')
     else:
-        messages.error(
-            request, 'You do not have permission to delete this profile.')
-        return redirect('base')
-
-@login_required
-def profile_list(request):
-    user_profile = request.user
-
-    return render(request, 'profile_list.html', {'user_profile': user_profile})
+        return redirect('profiles:index')
 
 
 def user_logout(request):
     logout(request)
-    return redirect('base')
+    return redirect('profiles:index')
