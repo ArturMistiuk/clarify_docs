@@ -1,7 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 from clarify_docs import settings
+
 User = settings.AUTH_USER_MODEL
+
+
 class CustomProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.CharField(max_length=15)
@@ -35,8 +38,6 @@ class ChatMessage(models.Model):
 
 
 class UserData(models.Model):
-
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     total_files_uploaded = models.IntegerField(default=0)
     total_questions_asked = models.IntegerField(default=0)
-
