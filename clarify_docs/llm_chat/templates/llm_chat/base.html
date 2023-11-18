@@ -26,10 +26,10 @@
     {% if user.is_authenticated %}
 
     <ul>
-        <li><a href="{% url 'profiles:create_profile' %}" class="signup-button" role="button">Sign Up</a></li>
-        <li><a href="{% url 'profiles:login' %}" class="login-button" role="button">Login</a></li>
+        <li class="logo"><a href="{% url 'base' %}" class="no-style">Clarify Docs</a></li>
+        <li class="welcome">Welcome <b>{{ user.username }}!</b></li>
+        <li><a href="/llm_chat/ask_question" role="button">Chat</a></li>
         <li><a href="{% url 'profiles:logout' %}" role="button">Logout</a></li>
-        <li><a href="upload_pdf" role="button">Chat</a></li>
 <!--        <li><a class="nav-link btn" href="{% url 'home' %}" style="background-color: #CCCCCC; border: 2px solid #1111FF;-->
 <!--                               padding: 10px 20px; font-size: 18px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);">START CHAT</a></li>-->
     </ul>
@@ -54,7 +54,6 @@
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>-->
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js"></script>-->
 
-</body>
 <style>
 
 
