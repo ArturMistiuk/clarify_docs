@@ -13,11 +13,12 @@
     {% if user.is_authenticated %}
 
     <ul>
-        <li class="logo"><a href="{% url 'profiles:logout' %}" class="no-style">Clarify Docs</a></li>
+        <li class="logo"><a href="{% url 'base' %}" class="no-style">Clarify Docs</a></li>
         <li class="welcome">Welcome <b>{{ user.username }}!</b></li>
         <li><a href="{% url 'profiles:edit_profile' username=user.username %}">Edit Profile</a></li>
         <li><a href="{% url 'profiles:delete_profile' username=user.username %}" role="button">Delete Profile</a></li>
         <li><a href="{% url 'profiles:logout' %}" role="button">Logout</a></li>
+        <li><a href="/llm_chat/ask_question" role="button">Chat</a></li>
 
     </ul>
 

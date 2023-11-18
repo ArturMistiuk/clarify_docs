@@ -38,7 +38,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "profiles",
+<<<<<<< HEAD
 
+=======
+    "llm_chat"
+>>>>>>> ant_llm
 ]
 
 MIDDLEWARE = [
@@ -56,7 +60,8 @@ ROOT_URLCONF = "clarify_docs.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, 'profiles', 'templates')],
+        # "DIRS": [os.path.join(BASE_DIR, 'profiles', 'templates')],
+        "DIRS": [],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -83,7 +88,7 @@ DATABASES = {
 }
 
 AUTH_USER_MODEL = 'profiles.UserProfile'
-
+# AUTH_USER_MODEL = 'llm_chat.UserProfile'
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -119,7 +124,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
-
+LOGIN_REDIRECT_URL = '/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
