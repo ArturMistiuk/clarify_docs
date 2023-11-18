@@ -1,1 +1,1 @@
-web: gunicorn clarify_docs.wsgi
+web: gunicorn clarify-docs.wsgi
