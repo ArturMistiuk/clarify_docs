@@ -28,10 +28,8 @@
     <ul>
         <li class="logo"><a href="{% url 'base' %}" class="no-style">Clarify Docs</a></li>
         <li class="welcome">Welcome <b>{{ user.username }}!</b></li>
-        <li><a href="/llm_chat/ask_question" role="button">Chat</a></li>
+        <li><a href="/llm_chat/upload_pdf" role="button">Chat</a></li>
         <li><a href="{% url 'profiles:logout' %}" role="button">Logout</a></li>
-<!--        <li><a class="nav-link btn" href="{% url 'home' %}" style="background-color: #CCCCCC; border: 2px solid #1111FF;-->
-<!--                               padding: 10px 20px; font-size: 18px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);">START CHAT</a></li>-->
     </ul>
 
     {% else %}
@@ -49,10 +47,10 @@
 <footer class="footer fixed-bottom">
 
 </footer>
-<!--<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>-->
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>-->
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>-->
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js"></script>
 
 <style>
 
