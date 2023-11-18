@@ -1,1 +1,2 @@
-web: gunicorn clarify_docs.wsgi
+release: python clarify_docs/manage.py migrate
+web: gunicorn clarify-docs.wsgi
