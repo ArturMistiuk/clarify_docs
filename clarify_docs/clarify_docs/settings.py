@@ -38,11 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "profiles",
-<<<<<<< HEAD
-
-=======
-    "llm_chat"
->>>>>>> ant_llm
+    "llm_chat",
 ]
 
 MIDDLEWARE = [
