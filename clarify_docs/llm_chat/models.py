@@ -13,6 +13,9 @@ class CustomProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+    class Meta:
+        app_label = 'llm_chat'
+
 
 class PDFDocument(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -23,6 +26,9 @@ class PDFDocument(models.Model):
 
     def __str__(self):
         return f"{self.user.username}'s PDF: {self.document.name}"
+
+    class Meta:
+        app_label = 'llm_chat'
 
 
 class ChatMessage(models.Model):
@@ -36,8 +42,14 @@ class ChatMessage(models.Model):
     def __str__(self):
         return f"{self.user.username} at {self.timestamp}: Q: {self.question}, A: {self.answer}"
 
+    class Meta:
+        app_label = 'llm_chat'
+
 
 class UserData(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     total_files_uploaded = models.IntegerField(default=0)
     total_questions_asked = models.IntegerField(default=0)
+
+    class Meta:
+        app_label = 'llm_chat'
