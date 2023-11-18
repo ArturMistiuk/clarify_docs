@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clarify Docs</title>
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
+</head>
+<body>
+<nav style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px">
+    {% if user.is_authenticated %}
+
+    <ul>
+        <li class="logo"><a href="{% url 'base' %}" class="no-style">Clarify Docs</a></li>
+        <li class="welcome">Welcome <b>{{ user.username }}!</b></li>
+        <li><a href="{% url 'profiles:edit_profile' username=user.username %}">Edit Profile</a></li>
+        <li><a href="{% url 'profiles:delete_profile' username=user.username %}" role="button">Delete Profile</a></li>
+        <li><a href="{% url 'profiles:logout' %}" role="button">Logout</a></li>
+        <li><a href="/llm_chat/ask_question" role="button">Chat</a></li>
+
+    </ul>
+
+    {% else %}
+    <ul class="button-list">
+        <li><a href="{% url 'profiles:create_profile' %}" class="signup-button" role="button">Sign Up</a></li>
+        <li><a href="{% url 'profiles:login' %}" class="login-button" role="button">Login</a></li>
+    </ul>
+    {% endif %}
+</nav>
+</body>
+</html>
