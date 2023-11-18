@@ -10,8 +10,8 @@
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="toggleNav()">&times;</a>
     <div class="text-center">
-        <label style="color: white;" for="uploadForm" class="form-label mt-4">Update file:</label>
-        <form method="post" enctype="multipart/form-data" action="{% url 'upload_pdf' %}" id="uploadForm">
+        <label style="color: white; margin: 20px;" for="uploadForm" class="form-label mt-4">Update file:</label>
+        <form style="margin: 20px; font-size: 15px;  " method="post" enctype="multipart/form-data" action="{% url 'upload_pdf' %}" id="uploadForm">
             {% csrf_token %}
             <!-- Невидимий input для завантаження файлу -->
 <!--            <input type="file" name="{{ form.pdf_document.name }}" id="{{ form.pdf_document.auto_id }}"-->
@@ -19,12 +19,12 @@
                 <input type="file" name="pdf_document" id="pdfInput">
                 <button class="pdf_form_button" type="submit">Upload PDF</button>
             <!-- Зображення-кнопка -->
-            <img src="{% static 'llm_chat/img/upload_file.png' %}" height="50" alt="Upload Image" id="uploadImage"
-                 onclick="triggerFileSelect();" style="cursor: pointer;">
+             <!-- <img src="{% static 'llm_chat/img/upload_file.png' %}" height="35" alt="Upload Image" id="uploadImage"
+                 onclick="triggerFileSelect();" style="margin-top:2px;"> -->
         </form>
         <div class="form-group">
-            <label style="color: white;" for="sidenav_selected_pdf" class="form-label mt-4">Select file:</label>
-            <select class="form-select" id="sidenav_selected_pdf">
+            <label style="color: white; margin: 20px;" for="sidenav_selected_pdf" class="form-label mt-4">Select file:</label>
+            <select style=" margin: 10px; padding:5px;" class="form-select" id="sidenav_selected_pdf">
                 {% for pdf in user_pdfs %}
                 <option value="{{ pdf.id }}"
                         {% if pdf.id|stringformat:"s" == selected_pdf_id %}
@@ -34,14 +34,15 @@
         </div>
     </div>
     <hr style="color: white;">
-    <h6 class="text-center" style="color: white;">Files:</h6>
+    <h6 class="text-center" style="color: white; margin:15px; font-size:15px;">Files:</h6>
     <div class="text">
-        {% for pdf in user_pdfs %}
-        <ul>
-            <li style="color: white;">{{ pdf.title }}</li>
-        </ul>
-        {% endfor %}
-    </div>
+    {% for pdf in user_pdfs %}
+    <ul>
+        <li style="color: white; white-space: normal;">{{ pdf.title }}</li>
+    </ul>
+    {% endfor %}
+</div>
+
 </div>
 <div class="container" >
     <div id="main" style="margin: 0 auto;">
@@ -198,7 +199,7 @@
     transform: translateX(-50%);  /* Зсув вліво на 50% власної ширини, щоб він центрувався горизонтально */
     z-index: 1000;
     padding: 50px;
-    width: 1000px;
+    width: 960px;
 }
 
 .form-box {
@@ -255,7 +256,7 @@ left: 50%;
 <style>
     .sidenav {
     height: 100%;
-    width: 250px; /* Зміна тут */
+    width: 280px; /* Зміна тут */
     position: fixed;
     z-index: 1;
     top: 108px;
@@ -290,7 +291,8 @@ left: 50%;
 
 .pdf_form_button{
     padding: 12px 20px;
-    font-size: 12px;
+    margin: 10px 0px;
+    font-size: 15px;
     cursor: pointer;
 }
 </style>
@@ -340,7 +342,7 @@ function triggerFileSelect() {
     function toggleNav() {
      var sidenav = document.getElementById("mySidenav");
      if (sidenav.style.width == "0px" || sidenav.style.width == "") {
-         sidenav.style.width = "250px";
+         sidenav.style.width = "280px";
 
          // якщо потрібно щоб елемент змістився як меню вистав px
          document.getElementById("main").style.marginLeft = "0px";
