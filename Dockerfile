@@ -14,13 +14,8 @@ RUN poetry config virtualenvs.create false \
     && poetry install --no-interaction --no-ansi -vvv
 FROM poetry as runtime
 
-ENV USER=kos
-RUN adduser \
-    --disabled-password \
-    --no-create-home \
-    --shell /bin/bash \
-    "$USER"
-USER $USER
+
+
 COPY ./clarify_docs /code/clarify_docs
 EXPOSE 8000
 
