@@ -19,23 +19,24 @@
     <title>Clarify Docs</title>
 
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
+<!--    <script src="{% static 'llm_chat/scripts.js' %}"></script>-->
+    <link rel="stylesheet" href="{% static 'llm_chat/styles.css' %}">
 </head>
 <body>
-<nav style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px">
+<nav style="margin-bottom: 20px; padding-left: 30px">
     {% if user.is_authenticated %}
 
     <ul>
-        <li class="logo"><a href="{% url 'base' %}" class="no-style">Clarify Docs</a></li>
-        <li class="welcome">Welcome <b>{{ user.username }}!</b></li>
+        <li ><a href="{% url 'profiles:edit_profile' username=user.username %}">Welcome <b>{{ user.username }}!</b></a></li>
+        <li ><a href="{% url 'base' %}" >Clarify Docs</a></li>
         <li><a href="/llm_chat/upload_pdf" role="button">Chat</a></li>
         <li><a href="{% url 'profiles:logout' %}" role="button">Logout</a></li>
     </ul>
 
     {% else %}
-    <ul class="button-list">
-        <li><a href="{% url 'profiles:create_profile' %}" class="signup-button" role="button">Sign Up</a></li>
-        <li><a href="{% url 'profiles:login' %}" class="login-button" role="button">Login</a></li>
+    <ul >
+        <li><a href="{% url 'profiles:create_profile' %}" role="button">Sign Up</a></li>
+        <li><a href="{% url 'profiles:login' %}"  role="button">Login</a></li>
 
     </ul>
     {% endif %}
@@ -71,4 +72,8 @@
 
 
 </style>
+
+    <footer>
+        <strong>	&#169; Clarify Docs </strong>
+    </footer>
 </html>
