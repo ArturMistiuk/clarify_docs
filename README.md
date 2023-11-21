@@ -1,6 +1,6 @@
-## ClarifyDocs
+# ClarifyDocs
 
-# Quick Start
+## Quick Start
 
 NOTE: The project uses Python 3.11, so need it installed first. It is recommended to use pyenv for installation.
 NOTE: Create your OpenAI token: https://platform.openai.com/api-keys
