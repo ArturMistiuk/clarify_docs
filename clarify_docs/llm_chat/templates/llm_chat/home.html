@@ -1,303 +1,133 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
 {% extends 'llm_chat/base.html' %}
+
 {% load static %}
 {% block content %}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <link rel="stylesheet" href="{% static 'llm_chat/styles.css' %}">
+    <title>Clarify DOCs</title>
+
+<!--    SWAL custom styles-->
 
 
-<span style="font-size:30px; cursor:pointer; position:fixed; top:100px; left:10px; z-index:1000;" onclick="toggleNav()">&#9776; Menu</span>
+<!--    <div class="header">-->
+<!--        <h1>Clarify DOCs</h1>-->
+<!--    </div>-->
 
+
+<!-- Start chat page here  -->
+<!-- <link rel="stylesheet" type="text/css" href="{% static 'llm_chat/base.css' %}"> -->
 {% with selected_pdf_id=request.POST.selected_pdf|default:"" %}
 
-<div id="mySidenav" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="toggleNav()">&times;</a>
-    <div class="text-center">
-        <label style="color: white; margin: 20px;" for="uploadForm" class="form-label mt-4">Update file:</label>
-        <form style="margin: 20px; font-size: 15px;  " method="post" enctype="multipart/form-data" action="{% url 'upload_pdf' %}" id="uploadForm">
-            {% csrf_token %}
-            <!-- Невидимий input для завантаження файлу -->
-<!--            <input type="file" name="{{ form.pdf_document.name }}" id="{{ form.pdf_document.auto_id }}"-->
-<!--                   onchange="submitForm();" style="display: none;">-->
-                <input type="file" name="pdf_document" id="pdfInput">
-                <button class="pdf_form_button" type="submit">Upload PDF</button>
-            <!-- Зображення-кнопка -->
-             <!-- <img src="{% static 'llm_chat/img/upload_file.png' %}" height="35" alt="Upload Image" id="uploadImage"
-                 onclick="triggerFileSelect();" style="margin-top:2px;"> -->
-        </form>
-        <div class="form-group">
-            <label style="color: white; margin: 20px;" for="sidenav_selected_pdf" class="form-label mt-4">Select file:</label>
-            <select style=" margin: 10px; padding:5px;" class="form-select" id="sidenav_selected_pdf">
-                {% for pdf in user_pdfs %}
-                <option value="{{ pdf.id }}"
-                        {% if pdf.id|stringformat:"s" == selected_pdf_id %}
-                selected{% endif %}>{{ pdf.title }}</option>
+    <div id="mySidenav" class="sidebar">
+
+<!-- Upload files -->
+
+<!--      <label for="uploadForm">Upload files:</label>-->
+          <form method="post" enctype="multipart/form-data" action="{% url 'upload_pdf' %}" id="uploadForm">
+              {% csrf_token %}
+              <!-- Невидимий input для завантаження файлу -->
+              <input type="file" name="{{ form.pdf_document.name }}" id="{{ form.pdf_document.auto_id }}"
+                     onchange="submitForm();" style="display: none;">
+              <!-- Зображення-кнопка -->
+              <img src="{% static 'llm_chat/img/upload_file.png' %}" height="50" alt="Upload Image" id="uploadImage"
+                   onclick="triggerFileSelect();" style="cursor: pointer; padding: 20px">
+                <button  type="submit">Upload files</button>
+          </form>
+
+
+<!--         <button>Upload</button>
+        <button>Process Files</button> -->
+
+<!-- Selecting active doc  -->
+        <label for="sidenav_selected_pdf">Select file:</label>
+          <select id="sidenav_selected_pdf">
+              {% for pdf in user_pdfs %}
+              <option style="overflow-wrap: break-word;" value="{{ pdf.id }}"
+                      {% if pdf.id|stringformat:"s" == selected_pdf_id %}
+              selected{% endif %}>{{ pdf.title }}
+              </option>
+              {% endfor %}              
+          </select>
+
+<!-- Selecting ends -->
+
+
+
+<!-- Upload ends -->
+        <div style="padding-top: 10px; padding-bottom: 10px;">
+            <strong>Uploaded Files:</strong>
+                  <div style="display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 10px;
+    border: 1px dashed #ccc;
+    border-radius: 5px;
+    margin-bottom: 5px;">
+               {% for pdf in user_pdfs %}
+                <span style="overflow-wrap: break-word; border-bottom: 1px solid #ccc; padding-bottom: 4px;">{{ pdf.title }}</span>
+
                 {% endfor %}
-            </select>
         </div>
+            </div>
     </div>
-    <hr style="color: white;">
-    <h6 class="text-center" style="color: white; margin:15px; font-size:15px;">Files:</h6>
-    <div class="text">
-    {% for pdf in user_pdfs %}
-    <ul>
-        <li style="color: white; white-space: normal;">{{ pdf.title }}</li>
-    </ul>
-    {% endfor %}
-</div>
 
-</div>
-<div class="container" >
-    <div id="main" style="margin: 0 auto;">
+    <div class="chat-container">
         <div class="chat-history-container" id="chat-history-container">
-            <div class="chat-history">
-                <ul>
-                    {% for message in chat_message %}
-                    <li>
-                        <div class="text-center">
-                            <p>{{ message.timestamp }}</p>
-                        </div>
-                        <div class="container user">
-                            {% if avatar_url %}
-                            <img src="{{ avatar_url }}" alt="Avatar">
-                            {% else %}
-                            <img src="{% static 'llm_chat/img/human.png' %}"
-                                 alt="Avatar">
-                            {% endif %}
-                            <p>{{ message.message }}</p>
-                        </div>
-                        <div class="container darker">
-                            <img src="{% static 'llm_chat/img/bot.png' %}" alt="Avatar" class="right">
-                            <p>{{ message.answer }}</p>
-                        </div>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
 
-        <br><br>
-    </div>
-    <div id="ask-form">
-        <div class="container" style="margin: 0 auto;">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-box">
-                        <form action="{% url 'ask_question' %}" method="post" id="questionForm">
-                            {% csrf_token %}
-                            <input type="hidden" name="selected_pdf" id="main_selected_pdf">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <button class="btn" type="submit"><img src="{% static 'llm_chat/img/pik.png' %}"
-                                                                           alt="Submit"></button>
-                                </div>
-                                <input class="form-control" type="text" id="textInput" name="user_question">
-                            </div>
-                        </form>
-                    </div>
+<div class="chat-history">
+
+<!-- Messages -->
+          {% for message in chat_message %}
+
+            <div class="text-center">
+                <p>{{ message.timestamp }}</p>
+            </div>
+            <div class="message sent">
+                {% if avatar_url %}
+                <img src="{{ avatar_url }}" alt="Avatar">
+                {% else %}
+                <img src="{% static 'llm_chat/img/human.png' %}"
+                     alt="Avatar">
+                {% endif %}
+                <p>{{ message.message }}</p>
+            </div>
+            <div class="message received">
+                <img src="{% static 'llm_chat/img/bot.png' %}" alt="Avatar" class="right">
+                <p>{{ message.answer }}</p>
+            </div>
+
+          {% endfor %}
+
+<!-- End messages -->
+  </div> <!--chat-history cont-->
+        </div>
+        <div class="input-area">
+
+            <form action="{% url 'ask_question' %}" method="post" id="questionForm">
+                {% csrf_token %}
+                <input type="hidden" name="selected_pdf" id="main_selected_pdf">
+                <div>
+<!--                    <div>-->
+<!--                        <button class="btn" type="submit">Send</button>-->
+<!--                    </div>-->
+                    <input style="min-width: 690px;" class="form-control" type="text" id="textInput" name="user_question" placeholder="Type your question here...">
+                    <button style="float: inline-start;" type="submit">Send</button>
                 </div>
-            </div>
+            </form>
+
+
+<!--             <input type="text" placeholder="Type your message...">
+            <button>Send</button> -->
         </div>
     </div>
-
 </div>
-<style>
-    .chat-history-container {
-    max-height: calc(100vh - 2.7in);
-    overflow-y: auto;
-    width: 1500px;
-    max-width: 900px;
-    margin-left: 300px;
-    height: calc(100vh - 2.7in);
-    border: 1px solid #11999E;
-    padding: 10px;
-    background-color: rgba(255, 255, 255, 0.9);
-    background-size: cover;
-    z-index: 0;
-    position: fixed;
-    border-radius: 10px; /* Заокруглі кути для сучасного вигляду */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Тінь для піднятого вигляду */
-
-    /* Кастомна прокрутка */
-    scrollbar-width: thin; /* для Firefox */
-    scrollbar-color: rgba(155, 155, 155, 0.7) rgba(255, 255, 255, 0.3); /* колір прокрутки та колір трека для Firefox */
-}
-
-    .chat-history ul {
-        list-style-type: none;
-        padding: 0;
-    }
-
-    .chat-history li {
-        margin-bottom: 10px;
-    }
-
-.chat-history li {
-    list-style-type: none;
-}
-
-    /* Chat containers */
-.container.user {
-    border: 2px solid #dedede;
-    background-color: #555555;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px 0;
-}
-
-    /* Darker chat container */
-    .darker {
-        border-color: #ccc;
-        background-color: #ddd;
-        border-radius: 5px;
-        padding: 10px;
-        margin: 10px 0;
-    }
-
-    /* Clear floats */
-    .container::after {
-        content: "";
-        clear: both;
-        display: table;
-    }
-
-    /* Style images */
-    .container img {
-        float: left;
-        width: 100%; /* Ensure the image takes up the entire width of its container */
-        height: 100%;
-        max-width: 50px;
-
-        margin-right: 10px;
-        border-radius: 20%;
-    }
-
-    /* Style the right image */
-    .container img.right {
-        float: right;
-        max-width: 40px;
-        margin-left: 30px;
-        margin-right:0;
-    }
-
-    /* Style time text */
-    .time-right {
-        float: right;
-        color: #aaa;
-    }
-
-    /* Style time text */
-    .time-left {
-        float: left;
-        color: #999;
-    }
-</style>
-<style>
-    /* Стилі для форми, яка прикріплена до низу */
-
-    #ask-form {
-    position: fixed;
-    bottom: 0;
-    left: 50%;  /* Відцентрування по горизонталі */
-    transform: translateX(-50%);  /* Зсув вліво на 50% власної ширини, щоб він центрувався горизонтально */
-    z-index: 1000;
-    padding: 50px;
-    width: 960px;
-}
-
-.form-box {
-    justify-content: flex-start;
-    align-items: center;
-    padding: 5px 5px;
-    background-color: #f5f5f5;
-    border: 1px solid #11999E;
-    border-radius: 5px;
-    width: 100%;
-    max-width: 1100px;
-
-left: 50%;
-}
-
-    .form-box .form-control {
-        width: 100%;
-        padding: 8px 15px;
-        margin-left: 0px;
-        border-radius: 5px;
-        left: 50%;
-    }
-
-    /* Кнопка справа від поля вводу */
-
-    .input-group {
-        position: relative;
-        width: 97%;
-        max-width: 1000px; /* Збільшена довжина поля вводу */
-    }
-
-    .input-group-prepend {
-        position: absolute;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        display: flex;
-        align-items: center;
-    }
-
-    .form-control {
-        padding-right: 30px; /* Додаємо відступ справа для текстового поля, замість відступу зліва */
-    }
-
-    /* Стилі для зображення в кнопці */
-
-    .input-group img {
-        max-height: 20px;
-        margin-right: 10px;
-    }
-
-</style>
-
-<style>
-    .sidenav {
-    height: 100%;
-    width: 280px; /* Зміна тут */
-    position: fixed;
-    z-index: 1;
-    top: 108px;
-    left: 0;
-    background-color: #9a9a9a; /* 0.9 - це рівень прозорості */
-    overflow-x: hidden;
-    transition: 0.5s;
-    padding-top: 60px;
-}
 
 
-.sidenav a {
-    padding: 10px 15px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.3s;
-}
+<!-- END chat page -->
 
-.sidenav a:hover {
-    color: #f1f1f1;
-}
-
-.sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-}
-
-.pdf_form_button{
-    padding: 12px 20px;
-    margin: 10px 0px;
-    font-size: 15px;
-    cursor: pointer;
-}
-</style>
-
-<!-- JavaScript goes at the end -->
 <script>
     function submitForm() {
     // Створюємо новий об'єкт FormData
@@ -342,7 +172,7 @@ function triggerFileSelect() {
     function toggleNav() {
      var sidenav = document.getElementById("mySidenav");
      if (sidenav.style.width == "0px" || sidenav.style.width == "") {
-         sidenav.style.width = "280px";
+         sidenav.style.width = "250px";
 
          // якщо потрібно щоб елемент змістився як меню вистав px
          document.getElementById("main").style.marginLeft = "0px";
@@ -367,7 +197,8 @@ function formatTimestamp(timestampStr) {
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
-        hour12: true
+        hour24: true
+
     };
 
     let formatted = new Intl.DateTimeFormat('en-US', options).format(timestamp);
@@ -384,7 +215,7 @@ function formatTimestamp(timestampStr) {
 document.getElementById("sidenav_selected_pdf").addEventListener("change", function() {
     let selectedPdf = this.value;
 
-    fetch(`/get_chat_history?pdf_id=${selectedPdf}`)
+    fetch(`/llm_chat/get_chat_history?pdf_id=${selectedPdf}`)
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -398,11 +229,10 @@ document.getElementById("sidenav_selected_pdf").addEventListener("change", funct
         data.forEach(message => {
             let formattedTimestamp = formatTimestamp(message.timestamp);
             let messageItem = `
-                <li>
                     <div class="text-center">
                         <p>${formattedTimestamp}</p>
                     </div>
-                    <div class="container user">
+                    <div class="message sent">
                         {% if avatar_url %}
                         <img src="{{ avatar_url }}" alt="Avatar">
                         {% else %}
@@ -410,23 +240,28 @@ document.getElementById("sidenav_selected_pdf").addEventListener("change", funct
                         {% endif %}
                         <p>${message.message}</p>
                     </div>
-                    <div class="container darker">
+                    <div class="message received">
                         <img src="{% static 'llm_chat/img/bot.png' %}" alt="Avatar" class="right">
                         <p>${message.answer}</p>
                     </div>
-                </li>
             `;
             chatHistoryList.innerHTML += messageItem;
         });
     })
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error.message);
+        Swal.fire({
+            icon: 'error',
+            title: 'Loading failed',
+            text: 'Sorry, there was a problem loading the chat history.',
+
+        });
         // Додайте повідомлення про помилку для користувача, якщо це необхідно.
         // Наприклад: alert('Sorry, there was a problem loading the chat history.');
     });
 });
-</script>
-<script>
+
+
     // повідомлення зникає через 5 сек
     setTimeout(function(){
         var alerts = document.querySelectorAll(".alert");
@@ -434,8 +269,7 @@ document.getElementById("sidenav_selected_pdf").addEventListener("change", funct
             alert.style.display = "none";
         });
     }, 5000);
-</script>
-<script>
+
     document.getElementById("questionForm").addEventListener("submit", function(event) {
     var textInput = document.getElementById("textInput").value.trim();
 
@@ -450,10 +284,9 @@ document.getElementById("sidenav_selected_pdf").addEventListener("change", funct
     }
 });
 
-</script>
-<script>
+
     // Отримуємо посилання на елемент контейнера
-    var chatHistoryContainer = document.getElementById("chat-history-container");
+    var chatHistoryContainer = document.getElementById("chat-history");
     // Прокручуємо контейнер до нижнього краю
     chatHistoryContainer.scrollTop = chatHistoryContainer.scrollHeight;
 </script>
@@ -461,3 +294,7 @@ document.getElementById("sidenav_selected_pdf").addEventListener("change", funct
 {% endwith %}
 
 {% endblock %}
+
+
+
+<!--</html>-->
