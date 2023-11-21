@@ -160,3 +160,4 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 clarify_docs/profiles.sqlite3
+clarify_docs/profiles.sqlite3
