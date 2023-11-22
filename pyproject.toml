@@ -17,6 +17,10 @@ docx2txt = "^0.8"
 python-pptx = "^0.6.23"
 tiktoken = "^0.5.1"
 faiss-cpu = "^1.7.4"
+gunicorn = "^21.2.0"
+django-heroku = "^0.3.1"
+instructorembedding = "^1.0.1"
+sentence-transformers = "^2.2.2"
 
 
 [build-system]

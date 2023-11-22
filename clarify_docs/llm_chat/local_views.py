@@ -19,13 +19,16 @@ from pptx import Presentation
 
 from .forms import PDFUploadForm, PDFUpdateForm, PDFDocumentForm2
 from .models import ChatMessage, PDFDocument, UserData
+from langchain.llms import HuggingFaceHub
 
-# CHUNK_SIZE = 1024
-# CHUNK_OVERLAP = 200
-# MAX_LEN = 512
-# TEMPERATURE = 0.5
+CHUNK_SIZE = 1024
+CHUNK_OVERLAP = 128
+EMBEDDING_MODEL = "hkunlp/instructor-xl"
+MAX_LEN = 768
+TEMPERATURE = 0.5
+MODEL_LLM = "google/flan-t5-base" #tiiuae/falcon-7b-instruct google/flan-t5-small
 
-MAX_SIZE_FILE = 20 * 1024 * 1024  # 20 Mb
+MAX_SIZE_FILE = 20 * 1024 * 1024  # 10 Mb
 load_dotenv()
 
 
@@ -60,7 +63,10 @@ def get_pdf_text(file):
 
 
 def get_text_chunks(text):
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=CHUNK_SIZE,
+        chunk_overlap=CHUNK_OVERLAP,
+        length_function=len)
     chunks = text_splitter.split_text(text)
     return chunks
 
@@ -69,20 +75,20 @@ def get_vectorstore(text_chunks):
     api_key = os.getenv("OPENAI_API_KEY")
     embeddings = OpenAIEmbeddings(model="text-embedding-ada-002", openai_api_key=api_key)
     # embeddings = OllamaEmbeddings(model_name=EMBEDDING_MODEL)
-    # embeddings = HuggingFaceInstructEmbeddings(
-    #     model_name="hkunlp/instructor-large", model_kwargs={"device": 'cpu'}
-    # )
+    # embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-large", model_kwargs={"device": 'cpu'})
     # embeddings = HuggingFaceInstructEmbeddings(model_name=EMBEDDING_MODEL)
     vectorstore = FAISS.from_texts(text_chunks, embeddings)
     return vectorstore
 
 
 def get_conversation_chain(vectorstore):
-    llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.7)
+    # llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.7)
+    llm = HuggingFaceHub(repo_id=MODEL_LLM, model_kwargs={"temperature": TEMPERATURE, "max_length": MAX_LEN})
     # llm = AutoModelForCausalLM.from_pretrained("TheBloke/Llama-2-7b-Chat-GGUF",
     #                                            model_file="llama-2-7b-chat.q4_K_M.gguf", model_type="llama",
     #                                            gpu_layers=0, from_tf=True)
-    memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True)
+
+    memory = ConversationBufferMemory(memory_key='chat_history', return_only_outputs=True)
     conversation_chain = ConversationalRetrievalChain.from_llm(
         llm=llm,
         retriever=vectorstore.as_retriever(),
@@ -109,7 +115,7 @@ def upload_pdf(request):
             if file_extension.lower() not in [".pdf", ".txt", ".docx", ".pptx"]:
                 return JsonResponse({'error': 'Only PDF, TXT, DOCX, PPTX files'}, status=400)
 
-            if pdf_document.size > MAX_SIZE_FILE:  # 20 Mb
+            if pdf_document.size > MAX_SIZE_FILE:  # 10 Mb
                 return JsonResponse({'error': "File size exceeds 50 MB."}, status=400)
 
             # Check if a file with the same name already exists for this user
@@ -156,10 +162,10 @@ def ask_question(request):
         knowledge_base = get_vectorstore(text_chunks)
         conversation_chain = get_conversation_chain(knowledge_base)
 
-        with get_openai_callback() as cb:
-            response = conversation_chain({'question': user_question})
+        # with get_openai_callback() as cb:
+        response = conversation_chain({'question': user_question})
 
-        chat_response = response["answer"]
+        chat_response = response["answer"] #response['chat_history']
         chat_message = ChatMessage(user=request.user, message=user_question, answer=chat_response,
                                    pdf_document=selected_pdf)  # об'єкт PDFDocument
         user_data.total_questions_asked += 1
