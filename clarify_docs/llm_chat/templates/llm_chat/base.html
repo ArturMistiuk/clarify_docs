@@ -29,7 +29,7 @@
     <ul>
         <li ><a href="{% url 'profiles:edit_profile' username=user.username %}">Welcome <b>{{ user.username }}!</b></a></li>
         <li ><a href="{% url 'base' %}" >Clarify Docs</a></li>
-        <li><a href="/llm_chat/upload_pdf" role="button">Chat</a></li>
+        <li><a href="/llm_chat/upload_pdf" role="button" target="_blank">New Chat</a></li>
         <li><a href="{% url 'profiles:logout' %}" role="button">Logout</a></li>
     </ul>
 
@@ -42,7 +42,6 @@
     {% endif %}
 </nav>
 </body>
-
 
 {% block content %} {% endblock %}
 <footer class="footer fixed-bottom">

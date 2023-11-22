@@ -1,6 +1,9 @@
+body, button, input, select, textarea {
+    font-family: 'Montserrat', sans-serif;
+}
+
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #FDFDFD;
 }
 
 .button-list {
